@@ -157,28 +157,29 @@ export class CartService {
     let data = this.cartDataServer.data[index];
 
     if (increase) {
-      data.numInCart = data.numInCart < data.product.quantity ? data.numInCart++ : data.product.quantity;
+      data.numInCart = data.numInCart < data.product.quantity ? data.numInCart + 1 : data.product.quantity;
       this.cartDataClient.prodData[index].incart = data.numInCart;
       this.calculateTotal();
       this.cartDataClient.total = this.cartDataServer.total;
       localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
       this.cartData$.next({...this.cartDataServer});
     } else {
-      data.numInCart--;
-      if (data.numInCart < 1) {
+      if (data.numInCart <= 1) {
         this.deleteProductFromCart(index);
+        this.cartData$.next({...this.cartDataServer});
       } else {
+        data.numInCart--;
         this.cartDataClient.prodData[index].incart = data.numInCart;
+        this.calculateTotal();
+        this.cartDataClient.total = this.cartDataServer.total;
+        localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
+        this.cartData$.next({...this.cartDataServer});
       }
-      this.calculateTotal();
-      this.cartDataClient.total = this.cartDataServer.total;
-      localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
-      this.cartData$.next({...this.cartDataServer});
     }
   }
 
   deleteProductFromCart(index: number) {
-    if (window.confirm('Are you sure you want to remove the item?')) {
+    if (confirm('Are you sure you want to remove the item?')) {
       this.cartDataServer.data.splice(index, 1);
       this.cartDataClient.prodData.splice(index, 1);
       this.calculateTotal();
