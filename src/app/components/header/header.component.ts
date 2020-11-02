@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CartModelServer } from 'src/app/models/cart.model';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +8,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  cartData: CartModelServer;
+  cartTotal: number;
 
-  constructor() { }
+  constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
+    this.cartService.cartTotal$.subscribe(total => {
+      this.cartTotal = total;
+    });
+    this.cartService.cartData$.subscribe(data => {
+      this.cartData = data;
+    });
   }
 
+  numberOfProductsInCart(): number {
+    let res = 0;
+    this.cartData.data.forEach(p => {
+      res += p.numInCart;
+    });
+    return res;
+  }
+
+  deleteCartItem(id: number) {
+    this.cartService.deleteProductFromCart(id);
+  }
 }

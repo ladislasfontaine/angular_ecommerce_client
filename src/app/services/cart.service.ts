@@ -80,8 +80,17 @@ export class CartService {
 
   addProductToCart(id: number, quantity?: number) {
     this.producService.getSingleProduct(id).subscribe(prod => {
+      // 0. if the product is out of stock
+      if (prod.quantity < 1) {
+        this.toast.warning(`${prod.name} not in stock`, 'Product Status', {
+          timeOut: 3000,
+          progressBar: true,
+          progressAnimation: 'increasing',
+          positionClass: 'toast-bottom-right'
+        });
+      }
       // 1. if the cart is empty
-      if (this.cartDataServer.data[0].product === undefined) {
+      else if (this.cartDataServer.data[0].product === undefined) {
         this.cartDataServer.data[0].product = prod;
         this.cartDataServer.data[0].numInCart = quantity !== undefined ? quantity : 1;
         this.calculateTotal();
@@ -91,10 +100,10 @@ export class CartService {
         localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
         this.cartData$.next({...this.cartDataServer});
         this.toast.success(`${prod.name} added to the cart`, 'Product Added', {
-           timeOut: 1500,
+           timeOut: 3000,
            progressBar: true,
            progressAnimation: 'increasing',
-           positionClass: 'toast-top-right'
+           positionClass: 'toast-bottom-right'
         });
       }
       // 2. if the cart as some items
@@ -109,10 +118,10 @@ export class CartService {
           }
           this.cartDataClient.prodData[index].incart = this.cartDataServer.data[index].numInCart;
           this.toast.info(`${prod.name} quantity updated in the cart`, 'Product Updated', {
-            timeOut: 1500,
+            timeOut: 3000,
             progressBar: true,
             progressAnimation: 'increasing',
-            positionClass: 'toast-top-right'
+            positionClass: 'toast-bottom-right'
          });
         }
         //  b. if that item is not in the cart
@@ -126,10 +135,10 @@ export class CartService {
             incart: 1
           });
           this.toast.success(`${prod.name} added to the cart`, 'Product Added', {
-            timeOut: 1500,
+            timeOut: 3000,
             progressBar: true,
             progressAnimation: 'increasing',
-            positionClass: 'toast-top-right'
+            positionClass: 'toast-bottom-right'
           });
           // this.calculateTotal();
           // this.cartDataClient.total = this.cartDataServer.total;
@@ -240,10 +249,10 @@ export class CartService {
         this.spinner.hide();
         this.router.navigateByUrl('/checkout').then();
         this.toast.error('Sorry, failed to book the order.', 'Order Status', {
-          timeOut: 1500,
+          timeOut: 3000,
           progressBar: true,
           progressAnimation: 'increasing',
-          positionClass: 'toast-top-right'
+          positionClass: 'toast-bottom-right'
         });
       }
     });
@@ -258,6 +267,11 @@ export class CartService {
       }]
     };
     this.cartData$.next({...this.cartDataServer});
+  }
+
+  calculateSubTotal(index: number): number {
+    const p = this.cartDataServer.data[index];
+    return (p.product.price * p.numInCart);
   }
 }
 
