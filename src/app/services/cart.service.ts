@@ -128,11 +128,11 @@ export class CartService {
         else {
           this.cartDataServer.data.push({
             product: prod,
-            numInCart: 1
+            numInCart: quantity || 1
           });
           this.cartDataClient.prodData.push({
             id: prod.id,
-            incart: 1
+            incart: quantity || 1
           });
           this.toast.success(`${prod.name} added to the cart`, 'Product Added', {
             timeOut: 3000,
