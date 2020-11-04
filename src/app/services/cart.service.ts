@@ -140,10 +140,6 @@ export class CartService {
             progressAnimation: 'increasing',
             positionClass: 'toast-bottom-right'
           });
-          // this.calculateTotal();
-          // this.cartDataClient.total = this.cartDataServer.total;
-          // localStorage.setItem('cart', JSON.stringify(this.cartDataClient));
-          // this.cartData$.next({...this.cartDataServer});
         }
         this.calculateTotal();
         this.cartDataClient.total = this.cartDataServer.total;
@@ -226,7 +222,9 @@ export class CartService {
         this.http.post(`${this.SERVER_URL}/orders/new`, {
           userId: userId,
           products: this.cartDataClient.prodData
-        }).subscribe((data: OrderResponse) => {
+        }).subscribe(async (data: OrderResponse) => {
+          // wait 2 seconds to view thank you page correctly
+          await new Promise(resolve => setTimeout(resolve, 2000));
           this.orderService.getSingleOrder(data.order_id).then(prods => {
             if (data.success) {
               const navigationExtras: NavigationExtras = {
@@ -234,7 +232,7 @@ export class CartService {
                   message: data.message,
                   products: prods,
                   orderId: data.order_id,
-                  total: this.cartDataClient.total 
+                  total: this.cartDataClient.total
                 }
               };
               this.spinner.hide();

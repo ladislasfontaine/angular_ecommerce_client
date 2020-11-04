@@ -20,9 +20,10 @@ export class OrderService {
 
 interface ProductResponseModel {
   id: number;
-  title: string;
+  name: string;
   description: string;
   price: number;
   quantityOrdered: number;
   image: string;
+  username: string;
 }

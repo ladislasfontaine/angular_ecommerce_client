@@ -1,0 +1,14 @@
+<div class="container my-5">
+	<h3 class="mb-5">Order Details Page</h3>
+	<ul class="list-group">
+		<li class="list-group-item d-flex justify-content-between align-items-center my-2" *ngFor="let p of products">
+			<div>
+				<p style="font-weight: bold;">{{ p.name }}</p>
+				<p>Price per unit: {{ p.price | currency: 'EUR' }}</p>
+				<p>Quantity: {{ p.quantityOrdered }}</p>
+				<p>Subtotal: {{ p.price * p.quantityOrdered | currency: 'EUR' }}</p>
+			</div>
+			<img [src]="p.image" [alt]="p.name" style="max-height: 200px;">
+		</li>
+	</ul>
+</div>
