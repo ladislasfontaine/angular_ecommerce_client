@@ -17,3 +17,11 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## TO DOs
+
+* write some tests
+* authentication with facebook as well
+* admin dashboard
+* create, edit, delete products with admin rights
+* create, edit, delete categories with admin rights
