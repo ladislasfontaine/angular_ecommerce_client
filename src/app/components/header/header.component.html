@@ -1,16 +1,11 @@
 <!-- HEADER -->
 <header>
 	<!-- TOP HEADER -->
-	<div id="top-header" class="h-200">
-		<div class="container h-100 d-flex justify-content-around align-items-center">
-			<ul class="header-links pull-left">
-				<li><a href="#"><i class="fa fa-phone"></i> +33 (0)6 11 22 33 44</a></li>
-				<li><a href="#"><i class="fa fa-envelope-o"></i> welcome@email.com</a></li>
-				<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
-			</ul>
-			<ul class="header-links pull-right">
-				<li><a routerLink="/profile"><i class="fa fa-user-o"></i>{{ authState === false ? 'Login' : 'My Account' }}</a></li>
-			</ul>
+	<div id="top-header" class="bg-black">
+		<div class="container h-100 d-flex justify-content-between align-items-center" style="max-width: none; width: 90%;">
+			<div class="text-white"><p>FRANCE</p></div>
+			<div class="text-white"><p>FREE SHIPPING ON ALL ORDERS > 169 €</p></div>
+			<div></div>
 		</div>
 	</div>
 	<!-- /TOP HEADER -->
@@ -50,7 +45,7 @@
 				<!-- responsive-nav -->
 				<div id="responsive-nav" class="col-md-6">
 					<!-- NAV -->
-					<ul class="nav main-nav py-3">
+					<ul class="nav main-nav py-3 d-flex justify-content-around">
 						<li class="nav-item"><a href="#">NEW COLLECTION</a></li>
 						<li class="nav-item"><a href="#">FOR HIM</a></li>
 						<li class="nav-item"><a href="#">FOR HER</a></li>
@@ -131,26 +126,3 @@
 	<!-- /MAIN HEADER -->
 </header>
 <!-- /HEADER -->
-
-<!-- NAVIGATION -->
-<nav id="navigation">
-	<!-- container -->
-	<div class="container">
-		<!-- responsive-nav -->
-		<div id="responsive-nav">
-			<!-- NAV -->
-			<ul class="nav main-nav py-3">
-				<li class="nav-item active"><a routerLink="/">HOME</a></li>
-				<li class="nav-item"><a href="#">NEW COLLECTION</a></li>
-				<li class="nav-item"><a href="#">FOR HIM</a></li>
-				<li class="nav-item"><a href="#">FOR HER</a></li>
-				<li class="nav-item"><a href="#">KIDS</a></li>
-				<li class="nav-item"><a href="#">WHY ALTRA</a></li>
-			</ul>
-			<!-- /NAV -->
-		</div>
-		<!-- /responsive-nav -->
-	</div>
-	<!-- /container -->
-</nav>
-<!-- /NAVIGATION -->

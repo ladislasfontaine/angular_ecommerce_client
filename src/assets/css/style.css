@@ -68,8 +68,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: #2B2D42;
-  font-weight: 500;
+  color: #11121a;
+  font-weight: 700;
   -webkit-transition: 0.2s color;
   transition: 0.2s color;
 }
@@ -292,8 +292,8 @@ textarea.input {
 \*----------------------------*/
 
 .section {
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .section-title {
