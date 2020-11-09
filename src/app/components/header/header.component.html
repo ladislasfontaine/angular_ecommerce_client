@@ -16,23 +16,23 @@
 	<!-- /TOP HEADER -->
 
 	<!-- MAIN HEADER -->
-	<div id="header">
+	<div id="header" class="d-flex justify-content-between">
 		<!-- container -->
-		<div class="container">
+		<!-- <div class="container"> -->
 			<!-- row -->
-			<div class="row">
+			<!-- <div class="row"> -->
 				<!-- LOGO -->
-				<div class="col-md-3">
+				<div class="col-md-3 h-100 d-flex justify-content-center align-items-center" style="background-color: #C43F31;">
 					<div class="header-logo">
-						<a href="#" class="logo">
-							<img src="/assets/img/logo.png" alt="">
+						<a routerLink="/" class="logo">
+							<img src="/assets/img/logo.svg" alt="">
 						</a>
 					</div>
 				</div>
 				<!-- /LOGO -->
 
 				<!-- SEARCH BAR -->
-				<div class="col-md-6">
+				<!-- <div class="col-md-6">
 					<div class="header-search">
 						<form>
 							<select class="input-select">
@@ -44,21 +44,43 @@
 							<button class="search-btn">Search</button>
 						</form>
 					</div>
-				</div>
+				</div> -->
 				<!-- /SEARCH BAR -->
 
+				<!-- responsive-nav -->
+				<div id="responsive-nav" class="col-md-6">
+					<!-- NAV -->
+					<ul class="nav main-nav py-3">
+						<li class="nav-item"><a href="#">NEW COLLECTION</a></li>
+						<li class="nav-item"><a href="#">FOR HIM</a></li>
+						<li class="nav-item"><a href="#">FOR HER</a></li>
+						<li class="nav-item"><a href="#">KIDS</a></li>
+						<li class="nav-item"><a href="#">WHY ALTRA</a></li>
+					</ul>
+					<!-- /NAV -->
+				</div>
+				<!-- /responsive-nav -->
+
 				<!-- ACCOUNT -->
-				<div class="col-md-3 clearfix">
+				<div class="col-md-3 clearfix d-flex">
 					<div class="header-ctn">
 						<!-- Wishlist -->
 						<div>
 							<a href="#">
-								<i class="fa fa-heart-o"></i>
-								<div class="qty">0</div>
+								<i class="fa fa-truck"></i>
 							</a>
 						</div>
 						<!-- /Wishlist -->
-
+						<div>
+							<a href="#">
+								<i class="fa fa-heart"></i>
+							</a>
+						</div>
+						<div>
+							<a routerLink="/profile">
+								<i class="fa fa-user"></i>
+							</a>
+						</div>
 						<!-- Cart -->
 						<div class="dropdown" style="color:white;cursor: pointer;">
 							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
@@ -103,9 +125,9 @@
 				<!-- /ACCOUNT -->
 			</div>
 			<!-- row -->
-		</div>
+		<!-- </div> -->
 		<!-- container -->
-	</div>
+	<!-- </div> -->
 	<!-- /MAIN HEADER -->
 </header>
 <!-- /HEADER -->

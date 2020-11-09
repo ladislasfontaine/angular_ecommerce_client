@@ -75,7 +75,7 @@ a {
 }
 
 a:hover, a:focus {
-  color: #D10024;
+  color: black;
   text-decoration: none;
   outline: none;
 }
@@ -443,17 +443,21 @@ textarea.input {
 \*----------------------------*/
 
 #header {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  background-color: #15161D;
+  height: 98px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-logo {
-  float: left;
+  float: none;
 }
 
 .header-logo .logo img {
+  width: 80%;
   display: block;
+  margin: auto;
 }
 
 /*----------------------------*\
@@ -502,20 +506,20 @@ textarea.input {
 }
 
 .header-ctn>div+div {
-  margin-left: 15px;
+  margin-left: 0px;
 }
 
 .header-ctn>div>a {
   display: block;
   position: relative;
-  width: 90px;
+  width: 45px;
   text-align: center;
-  color: #FFF;
 }
 
 .header-ctn>div>a>i {
   display: block;
   font-size: 18px;
+  color: black;
 }
 
 .header-ctn>div>a>span {
@@ -524,8 +528,8 @@ textarea.input {
 
 .header-ctn>div>a>.qty {
   position: absolute;
-  right: 15px;
-  top: -10px;
+  right: -10px;
+  top: -1px;
   width: 20px;
   height: 20px;
   line-height: 20px;
@@ -621,8 +625,6 @@ textarea.input {
 
 #navigation {
   background: #FFF;
-  border-bottom: 2px solid #E4E7ED;
-  border-top: 3px solid #D10024;
 }
 
 /*----------------------------*\
@@ -638,7 +640,7 @@ textarea.input {
 }
 
 .main-nav>li>a:hover, .main-nav>li>a:focus, .main-nav>li.active>a {
-  color: #D10024;
+  color: black;
   background-color: transparent;
 }
 
