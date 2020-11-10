@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="jumbotron">
+	<div class="jumbotron bg-white">
 	  	<div class="row">
 			<div class="col-md-6 d-flex mx-auto flex-column">
 		  		<ng-container *ngIf="loginMessage?.length > 0">
@@ -22,6 +22,7 @@
 								[disabled]="myform.invalid && myform.touched">
 							Login
 						</button>
+						<a routerLink="/register" class="btn btn-outline-primary btn-sm btn-block">Register</a>
 						<hr>
 						<h4 class="text-uppercase"><strong>Login using</strong></h4>
 						<button (click)="signInWithGoogle()" class="btn btn-danger btn-sm btn-block mt-4"><span><i

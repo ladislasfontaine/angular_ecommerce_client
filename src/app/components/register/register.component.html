@@ -14,15 +14,12 @@
 			</div>
 	 	</div>
 	  	<div class="row">
-			<div class="col-md-3 field-label-responsive">
-			<label for="fname">First Name</label>
-			</div>
+			<div class="col-md-3 field-label-responsive"></div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						<div class="input-group-prepend" style="width: 2.6rem"><i class="fa fa-user"></i></div>
 						<input class="form-control" formControlName="fname" id="fname" name="fname"
-								placeholder="John"
+								placeholder="First name"
 								required type="text">
 					</div>
 				</div>
@@ -36,15 +33,12 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-3 field-label-responsive">
-				<label for="lname">Last Name</label>
-			</div>
+			<div class="col-md-3 field-label-responsive"></div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						<div class="input-group-prepend" style="width: 2.6rem"><i class="fa fa-user"></i></div>
 						<input class="form-control" formControlName="lname" id="lname" name="lname"
-								placeholder="Doe"
+								placeholder="Last name"
 								required type="text">
 					</div>
 				</div>
@@ -58,15 +52,12 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-3 field-label-responsive">
-				<label for="email">E-Mail Address</label>
-			</div>
+			<div class="col-md-3 field-label-responsive"></div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						<div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
 						<input class="form-control" formControlName="email" id="email" name="email"
-								placeholder="you@example.com"
+								placeholder="Email"
 								required type="text">
 					</div>
 				</div>
@@ -93,18 +84,14 @@
 							<i class="fa fa-check"> Email Required</i>
 						</span>
 					</ng-container>
-		
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-3 field-label-responsive">
-			<label for="password">Password</label>
-			</div>
+			<div class="col-md-3 field-label-responsive"></div>
 			<div class="col-md-6">
 				<div class="form-group has-danger">
 					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						<div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
 						<input class="form-control" formControlName="password" id="password" name="password"
 								placeholder="Password"
 								required type="password">
@@ -117,18 +104,13 @@
 			</div>
 		</div>
 	  	<div class="row">
-			<div class="col-md-3 field-label-responsive">
-		  		<label for="password">Confirm Password</label>
-			</div>
+			<div class="col-md-3 field-label-responsive"></div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						<div class="input-group-addon" style="width: 2.6rem">
-							<i class="fa fa-repeat"></i>
-						</div>
 			  			<input class="form-control" formControlName="confirmPassword" id="password-confirm"
 					 			name="password-confirmation"
-					 			placeholder="Password" required type="password">
+					 			placeholder="Confirm password" required type="password">
 					</div>
 		  		</div>
 			</div>
@@ -146,9 +128,10 @@
 			<div class="col-md-3"></div>
 			<div class="col-md-6">
 		 		<button [disabled]="(registrationForm.invalid || registrationForm.pending) && registrationForm.touched "
-				 		 class="btn btn-success" type="submit">
-					<i class="fa fa-user-plus"></i> Register
-		  		</button>
+				 		 class="btn btn-primary btn-sm btn-block" type="submit">
+					Register
+				</button>
+				<a routerLink="/login" class="btn btn-outline-primary btn-sm btn-block">Log in</a>
 			</div>
 	  	</div>
 	</form>

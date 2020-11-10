@@ -1959,7 +1959,6 @@ pre code {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -1971,9 +1970,8 @@ pre code {
 .form-control:focus {
   color: #495057;
   background-color: #fff;
-  border-color: #80bdff;
+  border-color: #B64939;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -2773,13 +2771,12 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-primary:hover {
-  color: #fff;
-  background-color: #171616;
   border-color: black;
+  box-shadow: 0 0 0 0.1rem rgba(0, 0, 0, 0.5);
 }
 
 .btn-outline-primary:focus, .btn-outline-primary.focus {
-  box-shadow: 0 0 0 0.2rem rgba(4, 11, 19, 0.5);
+  box-shadow: 0 0 0 0.1rem rgba(4, 11, 19, 0.5);
 }
 
 .btn-outline-primary.disabled, .btn-outline-primary:disabled {
