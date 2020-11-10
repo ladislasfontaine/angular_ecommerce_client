@@ -1,7 +1,7 @@
 <!-- SECTION -->
 <div class="section">
 	<div class="jumbotron jumbotron-fluid p-0 position-relative">
-		<img src="/assets/img/diapos/diapo1.jpg" alt="Running person">
+		<img src="/assets/img/diapos/diapo1.jpg" alt="Running person" style="width: 100%; object-fit: cover; min-height: 290px;">
 		<div class="container position-absolute" style="top: 30%; left: 15%;">
 			<h6 class="text-white">Your new Road shoes</h6>
 			<h2 class="text-white" style="font-size: 3rem;">NEW COLLECTION</h2>
@@ -14,39 +14,13 @@
 		<div class="row">
 			<!-- Products tab & slick -->
 			<div class="col-md-12">
-				<div class="row">
+				<div class="row d-flex justify-content-between">
 					<!-- product -->
-					<div class="col-md-4 col-sm-6" *ngFor="let p of products">
-						<div class="card my-2">
-							<img 
-								[src]="p.image" 
-								[alt]="p.name" 
-								width="200px" 
-								class="card-img-top" 
-								style="cursor: pointer;" 
-								(click)="onSelectProduct(p.id)"
-							>
-							<div class="card-header">
-								<div class="card-title">
-									<p>{{ p.name | titlecase }}</p>
-								</div>
-							</div>
-							<div class="card-body">
-								<h6>{{ p.description.substr(0, 25) }} ...</h6>
-								<p class="lead">{{ p.price | currency: 'EUR' }}</p>
-							</div>
-							<div class="row d-flex justify-content-center border-primary my-3">
-								<div class="col-md-6">
-									<button class="btn btn-outline-primary btn-sm btn-block"
-									[class.disabled]="p.quantity < 1"
-									[class.btn-outline-danger]="p.quantity < 1"
-									(click)="addToCart(p.id)">
-										{{ p.quantity <  1 ? "NO STOCK" : "Add to cart" }}
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					<app-product-card
+						*ngFor="let p of products; let i = index"
+						[indexOfProduct]="i"
+						[product]="p"
+					></app-product-card>
 					<!-- /product -->
 				</div>
 			</div>

@@ -411,8 +411,8 @@ textarea.input {
 \*----------------------------*/
 
 #top-header {
-  height: 50px;
-  background-color: #1E1F29;
+  height: 40px;
+  background-color: black;
 }
 
 .header-links li {

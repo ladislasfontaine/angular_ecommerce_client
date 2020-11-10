@@ -20,6 +20,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from 'angularx-social-login';
 import { RegisterComponent } from './components/register/register.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RegisterComponent } from './components/register/register.component';
     OrderComponent,
     LoginComponent,
     ProfileComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProductCardComponent
   ],
   imports: [
     BrowserModule,

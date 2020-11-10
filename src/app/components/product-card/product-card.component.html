@@ -1,0 +1,24 @@
+<div class="card my-2">
+	<img 
+		[src]="product.image" 
+		[alt]="product.name" 
+		width="200px" 
+		class="card-img-top" 
+		style="cursor: pointer;" 
+		(click)="onSelectProduct(product.id)"
+	>
+	<div class="card-body">
+		<p>{{ product.name | uppercase }}</p>
+		<p class="price">{{ product.price | currency: 'EUR' }}</p>
+	</div>
+	<div class="row d-flex justify-content-center border-primary">
+		<div class="col-md-6">
+			<button class="btn btn-outline-primary btn-sm btn-block"
+			[class.disabled]="product.quantity < 1"
+			[class.btn-outline-danger]="product.quantity < 1"
+			(click)="addToCart(product.id)">
+				{{ product.quantity <  1 ? "NO STOCK" : "Add to cart" }}
+			</button>
+		</div>
+	</div>
+</div>
