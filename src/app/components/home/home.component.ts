@@ -12,6 +12,7 @@ import { CartService } from 'src/app/services/cart.service';
 export class HomeComponent implements OnInit {
 
   products: ProductModelServer[] = [];
+  component: any;
 
   constructor(
     private productService: ProductService) { }

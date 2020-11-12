@@ -64,9 +64,69 @@ describe('HomeComponent', () => {
     expect(button.textContent).toBe('Shop now');
   });
 
+  it('should be a "View cart" button second on the page', () => {
+    const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
+    const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
+    expect(cartButton.textContent).toBe('View cart');
+  });
+
   it('should navigate to "/" before any button click', () => {
     const location = TestBed.inject(Location);
     expect(location.path()).toBe('');
+  });
+
+  it('should navigate to "/cart" on "View cart" button click', async () => {
+    const location = TestBed.inject(Location);
+    const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
+    const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
+    cartButton.click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(location.path()).toBe('/cart');
+  });
+
+  it('should show no app-product-card when no products are available', () => {
+    const productCardDes = fixture.debugElement.queryAll(By.css('app-product-card'));
+    expect(productCardDes.length).toBe(0);
+  });
+
+  it('should show one app-product-card when I have one product', () => {
+    component.products = [
+      {
+        id: 1,
+        category: 'trail',
+        name: 'Running1',
+        price: 99,
+        quantity: 3,
+        image: '/assets/img/products/p1.jpg',
+        images: '',
+        description: 'test'
+      }
+    ];
+    fixture.detectChanges();
+    const productCardDes = fixture.debugElement.queryAll(By.css('app-product-card'));
+    expect(productCardDes.length).toBe(1);
+  });
+
+  it('should show 10 products if there are 10 products', () => {
+    component.products = [];
+    for (let i = 0; i < 10; i++) {
+      component.products.push(
+        {
+          id: i + 1,
+          category: 'trail',
+          name: 'Running1',
+          price: 99,
+          quantity: 3,
+          image: '/assets/img/products/p1.jpg',
+          images: '',
+          description: 'test'
+        }
+      );
+    }
+    fixture.detectChanges();
+    const products = fixture.debugElement.queryAll(By.css('app-product-card'));
+    expect(products.length).toBe(10);
   });
 });
 
