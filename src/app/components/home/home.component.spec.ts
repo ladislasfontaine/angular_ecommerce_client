@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
+import { ProductCardComponent } from '../product-card/product-card.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ToastrModule } from 'ngx-toastr';
@@ -13,12 +14,15 @@ import { Location } from '@angular/common';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  let helper: Helper;
+  let dh: DOMHelper;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
         HomeComponent,
-        DummyComponent
+        DummyComponent,
+        ProductCardComponent
       ],
       imports: [
         HttpClientTestingModule,
@@ -39,6 +43,8 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
+    helper = new Helper();
+    dh = new DOMHelper(fixture);
     fixture.detectChanges();
   });
 
@@ -47,21 +53,15 @@ describe('HomeComponent', () => {
   });
 
   it('should contain an h2 tag', () => {
-    const h2Element = fixture.debugElement.query(By.css('h2'));
-    const h2HtmlElement: HTMLHeadElement = h2Element.nativeElement;
-    expect(h2HtmlElement.textContent).toBe('NEW COLLECTION');
+    expect(dh.singleText('h2')).toBe('NEW COLLECTION');
   });
 
   it('should contain at least one button', () => {
-    const buttons = fixture.debugElement
-      .queryAll(By.css('button'));
-    expect(buttons.length >= 1).toBeTruthy();
+    expect(dh.count('button')).toBeGreaterThanOrEqual(1);
   });
 
   it('should be a "Shop now" button first on the page', () => {
-    const buttonDes = fixture.debugElement.queryAll(By.css('button'));
-    const button: HTMLButtonElement = buttonDes[0].nativeElement;
-    expect(button.textContent).toBe('Shop now');
+    expect(dh.singleText('button')).toBe('Shop now');
   });
 
   it('should be a "View cart" button second on the page', () => {
@@ -86,32 +86,55 @@ describe('HomeComponent', () => {
   });
 
   it('should show no app-product-card when no products are available', () => {
-    const productCardDes = fixture.debugElement.queryAll(By.css('app-product-card'));
-    expect(productCardDes.length).toBe(0);
+    expect(dh.count('app-product-card')).toBe(0);
   });
 
   it('should show one app-product-card when I have one product', () => {
-    component.products = [
-      {
-        id: 1,
-        category: 'trail',
-        name: 'Running1',
-        price: 99,
-        quantity: 3,
-        image: '/assets/img/products/p1.jpg',
-        images: '',
-        description: 'test'
-      }
-    ];
+    component.products = helper.getProducts(1);
     fixture.detectChanges();
-    const productCardDes = fixture.debugElement.queryAll(By.css('app-product-card'));
-    expect(productCardDes.length).toBe(1);
+    expect(dh.count('app-product-card')).toBe(1);
   });
 
   it('should show 10 products if there are 10 products', () => {
-    component.products = [];
-    for (let i = 0; i < 10; i++) {
-      component.products.push(
+    component.products = helper.getProducts(10);
+    fixture.detectChanges();
+    expect(dh.count('app-product-card')).toBe(10);
+  });
+
+  it('should show 10 price paragraphs, 1 per product', () => {
+    component.products = helper.getProducts(10);
+    fixture.detectChanges();
+    expect(dh.count('.price')).toBe(10);
+  });
+
+  it('should show 1 Add to cart button, 1 per product', () => {
+    component.products = helper.getProducts(1);
+    fixture.detectChanges();
+    expect(dh.countText('button', 'Add to cart')).toBe(1);
+  });
+
+  it('should show 20 Add to cart button, 1 per product', () => {
+    component.products = helper.getProducts(20);
+    fixture.detectChanges();
+    expect(dh.countText('button', 'Add to cart')).toBe(20);
+  });
+});
+
+@Component({ template: '' })
+class DummyComponent {}
+
+class ProductServiceStub {
+  getAllProducts(numberOfResults = 10): Observable<any[]> {
+    return of([]);
+  }
+}
+
+class Helper {
+  products = [];
+
+  getProducts(amount: number): any[] {
+    for (let i = 0; i < amount; i++) {
+      this.products.push(
         {
           id: i + 1,
           category: 'trail',
@@ -124,17 +147,31 @@ describe('HomeComponent', () => {
         }
       );
     }
-    fixture.detectChanges();
-    const products = fixture.debugElement.queryAll(By.css('app-product-card'));
-    expect(products.length).toBe(10);
-  });
-});
+    return this.products;
+  }
+}
 
-@Component({ template: '' })
-class DummyComponent {}
+class DOMHelper {
+  fixture: ComponentFixture<HomeComponent>;
 
-class ProductServiceStub {
-  getAllProducts(numberOfResults = 10): Observable<any[]> {
-    return of([]);
+  constructor(fixture: ComponentFixture<HomeComponent>) {
+    this.fixture = fixture;
+  }
+
+  singleText(tagName: string): string {
+    const elem = this.fixture.debugElement.query(By.css(tagName));
+    if (elem) {
+      return elem.nativeElement.textContent;
+    }
+  }
+
+  count(tagName: string): number {
+    const elements = this.fixture.debugElement.queryAll(By.css(tagName));
+    return elements.length;
+  }
+
+  countText(tagName: string, text: string): number {
+    const elements = this.fixture.debugElement.queryAll(By.css(tagName));
+    return elements.filter(element => element.nativeElement.textContent.trim() === text).length;
   }
 }
