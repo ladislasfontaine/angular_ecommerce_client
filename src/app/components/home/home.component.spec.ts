@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductService } from 'src/app/services/product.service';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
@@ -17,8 +17,11 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
   let helper: Helper;
   let dh: DOMHelper<HomeComponent>;
+  let productServiceMock: any;
 
   beforeEach(async () => {
+    productServiceMock = jasmine.createSpyObj('ProductService', ['getAllProducts']);
+    productServiceMock.getAllProducts.and.returnValue(of([]));
     await TestBed.configureTestingModule({
       declarations: [
         HomeComponent,
@@ -35,7 +38,7 @@ describe('HomeComponent', () => {
         )
       ],
       providers: [
-        { provide: ProductService, useClass: ProductServiceStub }
+        { provide: ProductService, useValue: productServiceMock }
       ]
     })
     .compileComponents();
@@ -123,12 +126,6 @@ describe('HomeComponent', () => {
 
 @Component({ template: '' })
 class DummyComponent {}
-
-class ProductServiceStub {
-  getAllProducts(numberOfResults = 10): Observable<any[]> {
-    return of([]);
-  }
-}
 
 class Helper {
   products = [];
