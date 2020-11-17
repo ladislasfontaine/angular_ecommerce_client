@@ -10,12 +10,13 @@ import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+import { DOMHelper } from 'src/testing/dom-helper';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let helper: Helper;
-  let dh: DOMHelper;
+  let dh: DOMHelper<HomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -148,30 +149,5 @@ class Helper {
       );
     }
     return this.products;
-  }
-}
-
-class DOMHelper {
-  fixture: ComponentFixture<HomeComponent>;
-
-  constructor(fixture: ComponentFixture<HomeComponent>) {
-    this.fixture = fixture;
-  }
-
-  singleText(tagName: string): string {
-    const elem = this.fixture.debugElement.query(By.css(tagName));
-    if (elem) {
-      return elem.nativeElement.textContent;
-    }
-  }
-
-  count(tagName: string): number {
-    const elements = this.fixture.debugElement.queryAll(By.css(tagName));
-    return elements.length;
-  }
-
-  countText(tagName: string, text: string): number {
-    const elements = this.fixture.debugElement.queryAll(By.css(tagName));
-    return elements.filter(element => element.nativeElement.textContent.trim() === text).length;
   }
 }
