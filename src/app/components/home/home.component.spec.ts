@@ -8,7 +8,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { ProductService } from 'src/app/services/product.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { DOMHelper } from 'src/testing/dom-helper';
 import { Router } from '@angular/router';
@@ -122,15 +121,6 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     expect(dh.countText('button', 'Add to cart')).toBe(20);
   });
-
-  // it('should call addToCart method with the product id when we click on Add to cart', () => {
-  //   component.products = helper.getProducts(1);
-  //   fixture.detectChanges();
-  //   spyOn(childComponent, 'addToCart');
-  //   dh.clickButton('Add to cart');
-  //   fixture.detectChanges();
-  //   expect(childComponent.addToCart).toHaveBeenCalledWith(helper.products[0].id);
-  // });
 });
 
 class Helper {
