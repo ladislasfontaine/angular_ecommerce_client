@@ -47,79 +47,97 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('Simple HTML', () => {
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should contain an h2 tag', () => {
+      expect(dh.singleText('h2')).toBe('NEW COLLECTION');
+    });
+
+    it('should contain at least one button', () => {
+      expect(dh.count('button')).toBeGreaterThanOrEqual(1);
+    });
+
+    it('should be a "Shop now" button first on the page', () => {
+      expect(dh.singleText('button')).toBe('Shop now');
+    });
+
+    it('should be a "View cart" button second on the page', () => {
+      const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
+      const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
+      expect(cartButton.textContent).toBe('View cart');
+    });
   });
 
-  it('should contain an h2 tag', () => {
-    expect(dh.singleText('h2')).toBe('NEW COLLECTION');
+  describe('Product Card', () => {
+    it('should show no app-product-card when no products are available', () => {
+      expect(dh.count('app-product-card')).toBe(0);
+    });
+
+    it('should show one app-product-card when I have one product', () => {
+      component.products = helper.getProducts(1);
+      fixture.detectChanges();
+      expect(dh.count('app-product-card')).toBe(1);
+    });
+
+    it('should show 10 products if there are 10 products', () => {
+      component.products = helper.getProducts(10);
+      fixture.detectChanges();
+      expect(dh.count('app-product-card')).toBe(10);
+    });
+
+    it('should show 10 price paragraphs, 1 per product', () => {
+      component.products = helper.getProducts(10);
+      fixture.detectChanges();
+      expect(dh.count('.price')).toBe(10);
+    });
+
+    it('should call getAllProducts on the ProductService one time on ngOnInit', () => {
+      expect(productServiceMock.getAllProducts).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it('should contain at least one button', () => {
-    expect(dh.count('button')).toBeGreaterThanOrEqual(1);
+  describe('Product Button', () => {
+    it('should show 1 Add to cart button, 1 per product', () => {
+      component.products = helper.getProducts(1);
+      fixture.detectChanges();
+      expect(dh.countText('button', 'Add to cart')).toBe(1);
+    });
+
+    it('should show 20 Add to cart button, 1 per product', () => {
+      component.products = helper.getProducts(20);
+      fixture.detectChanges();
+      expect(dh.countText('button', 'Add to cart')).toBe(20);
+    });
   });
 
-  it('should be a "Shop now" button first on the page', () => {
-    expect(dh.singleText('button')).toBe('Shop now');
-  });
+  describe('Navigation', () => {
+    let location: Location;
+    let router: Router;
 
-  it('should be a "View cart" button second on the page', () => {
-    const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
-    const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
-    expect(cartButton.textContent).toBe('View cart');
-  });
+    beforeEach(() => {
+      location = TestBed.inject(Location);
+      router = TestBed.inject(Router);
+    });
 
-  it('should navigate to "/" before any button click', () => {
-    const location = TestBed.inject(Location);
-    expect(location.path()).toBe('');
-  });
+    it('should navigate to "/" before any button click', () => {
+      expect(location.path()).toBe('');
+    });
 
-  it('should navigate to "/cart" on "View cart" button click', async () => {
-    const router = TestBed.inject(Router);
-    spyOn(router, 'navigateByUrl');
+    it('should navigate to "/cart" on "View cart" button click', async () => {
+      spyOn(router, 'navigateByUrl');
 
-    const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
-    const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
-    cartButton.click();
-    expect(router.navigateByUrl)
-      .toHaveBeenCalledWith(
-        router.createUrlTree(['/cart']),
-        { skipLocationChange: false, replaceUrl: false, state: undefined }
-      );
-  });
-
-  it('should show no app-product-card when no products are available', () => {
-    expect(dh.count('app-product-card')).toBe(0);
-  });
-
-  it('should show one app-product-card when I have one product', () => {
-    component.products = helper.getProducts(1);
-    fixture.detectChanges();
-    expect(dh.count('app-product-card')).toBe(1);
-  });
-
-  it('should show 10 products if there are 10 products', () => {
-    component.products = helper.getProducts(10);
-    fixture.detectChanges();
-    expect(dh.count('app-product-card')).toBe(10);
-  });
-
-  it('should show 10 price paragraphs, 1 per product', () => {
-    component.products = helper.getProducts(10);
-    fixture.detectChanges();
-    expect(dh.count('.price')).toBe(10);
-  });
-
-  it('should show 1 Add to cart button, 1 per product', () => {
-    component.products = helper.getProducts(1);
-    fixture.detectChanges();
-    expect(dh.countText('button', 'Add to cart')).toBe(1);
-  });
-
-  it('should show 20 Add to cart button, 1 per product', () => {
-    component.products = helper.getProducts(20);
-    fixture.detectChanges();
-    expect(dh.countText('button', 'Add to cart')).toBe(20);
+      const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
+      const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
+      cartButton.click();
+      expect(router.navigateByUrl)
+        .toHaveBeenCalledWith(
+          router.createUrlTree(['/cart']),
+          { skipLocationChange: false, replaceUrl: false, state: undefined }
+        );
+    });
   });
 });
 

@@ -36,6 +36,14 @@ describe('ProductCardComponent', () => {
     expect(testHostComponent).toBeTruthy();
   });
 
+  it('should call addToCart method once when we click on Add to cart', () => {
+    testHostComponent.initChild();
+    testHostFixture.detectChanges();
+    spyOn(testHostComponent.productCardComponent, 'addToCart');
+    dh.clickButton('Add to cart');
+    expect(testHostComponent.productCardComponent.addToCart).toHaveBeenCalledTimes(1);
+  });
+
   it('should call addToCart method with the product id when we click on Add to cart', () => {
     testHostComponent.initChild();
     testHostFixture.detectChanges();
