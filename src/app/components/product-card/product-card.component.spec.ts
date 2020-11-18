@@ -6,9 +6,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { Component } from '@angular/core';
 
 describe('ProductCardComponent', () => {
-  let component: ProductCardComponent;
-  let fixture: ComponentFixture<ProductCardComponent>;
-
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 
@@ -27,26 +24,34 @@ describe('ProductCardComponent', () => {
   beforeEach(() => {
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
+  });
+
+  it('should create', () => {
+    testHostComponent.setInputs(1, {
+      id: 1,
+      category: 'trail',
+      name: 'Running1',
+      price: 99,
+      quantity: 3,
+      image: '/assets/img/products/p1.jpg',
+      images: '',
+      description: 'test'
+    });
     testHostFixture.detectChanges();
+    expect(testHostComponent).toBeTruthy();
   });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductCardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  // it('should create', () => {
-  //   expect(testHostComponent).toBeTruthy();
-  // });
 
   @Component({
     selector: `app-host-component`,
-    template: `<app-product-card [indexOfProduct]="1" [product]="product"></app-product-card>`
+    template: `<app-product-card [indexOfProduct]="index" [product]="product"></app-product-card>`
   })
   class TestHostComponent {
-    product: any = {
-      image: '/assets/img/products/p1.jpg'
-    };
+    private index: number;
+    private product: any;
+
+    setInputs(indexOfProduct: number, product: any): void {
+      this.index = indexOfProduct;
+      this.product = product;
+    }
   }
 });

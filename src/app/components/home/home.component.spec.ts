@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { DOMHelper } from 'src/testing/dom-helper';
+import { Router } from '@angular/router';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -25,17 +26,12 @@ describe('HomeComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         HomeComponent,
-        DummyComponent,
         ProductCardComponent
       ],
       imports: [
         HttpClientTestingModule,
         ToastrModule.forRoot(),
-        RouterTestingModule.withRoutes(
-          [
-            { path: 'cart', component: DummyComponent }
-          ]
-        )
+        RouterTestingModule
       ],
       providers: [
         { provide: ProductService, useValue: productServiceMock }
@@ -80,13 +76,17 @@ describe('HomeComponent', () => {
   });
 
   it('should navigate to "/cart" on "View cart" button click', async () => {
-    const location = TestBed.inject(Location);
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigateByUrl');
+
     const cartButtonDes = fixture.debugElement.queryAll(By.css('button'));
     const cartButton: HTMLButtonElement = cartButtonDes[1].nativeElement;
     cartButton.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(location.path()).toBe('/cart');
+    expect(router.navigateByUrl)
+      .toHaveBeenCalledWith(
+        router.createUrlTree(['/cart']),
+        { skipLocationChange: false, replaceUrl: false, state: undefined }
+      );
   });
 
   it('should show no app-product-card when no products are available', () => {
@@ -122,10 +122,16 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     expect(dh.countText('button', 'Add to cart')).toBe(20);
   });
-});
 
-@Component({ template: '' })
-class DummyComponent {}
+  // it('should call addToCart method with the product id when we click on Add to cart', () => {
+  //   component.products = helper.getProducts(1);
+  //   fixture.detectChanges();
+  //   spyOn(childComponent, 'addToCart');
+  //   dh.clickButton('Add to cart');
+  //   fixture.detectChanges();
+  //   expect(childComponent.addToCart).toHaveBeenCalledWith(helper.products[0].id);
+  // });
+});
 
 class Helper {
   products = [];

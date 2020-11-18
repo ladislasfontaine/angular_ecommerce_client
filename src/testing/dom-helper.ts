@@ -24,4 +24,13 @@ export class DOMHelper<T> {
     const elements = this.fixture.debugElement.queryAll(By.css(tagName));
     return elements.filter(element => element.nativeElement.textContent.trim() === text).length;
   }
+
+  clickButton(text: string): void {
+    const elements = this.fixture.debugElement.queryAll(By.css('button'));
+    elements.forEach(element => {
+      if (element.nativeElement.textContent.trim() === text) {
+        element.nativeElement.click();
+      }
+    });
+  }
 }
