@@ -6,16 +6,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ToastrModule } from 'ngx-toastr';
 import { ProductService } from 'src/app/services/product.service';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { DOMHelper } from 'src/testing/dom-helper';
 import { Router } from '@angular/router';
+import { ProductModelServer } from 'src/app/models/product.model';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let helper: Helper;
   let dh: DOMHelper<HomeComponent>;
   let productServiceMock: any;
 
@@ -42,12 +42,14 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    helper = new Helper();
     dh = new DOMHelper(fixture);
-    fixture.detectChanges();
   });
 
   describe('Simple HTML', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+    });
+
     it('should create', () => {
       expect(component).toBeTruthy();
     });
@@ -72,6 +74,13 @@ describe('HomeComponent', () => {
   });
 
   describe('Product Card', () => {
+    let helper: Helper;
+
+    beforeEach(() => {
+      fixture.detectChanges();
+      helper = new Helper();
+    });
+
     it('should show no app-product-card when no products are available', () => {
       expect(dh.count('app-product-card')).toBe(0);
     });
@@ -93,13 +102,16 @@ describe('HomeComponent', () => {
       fixture.detectChanges();
       expect(dh.count('.price')).toBe(10);
     });
-
-    it('should call getAllProducts on the ProductService one time on ngOnInit', () => {
-      expect(productServiceMock.getAllProducts).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('Product Button', () => {
+    let helper: Helper;
+
+    beforeEach(() => {
+      fixture.detectChanges();
+      helper = new Helper();
+    });
+
     it('should show 1 Add to cart button, 1 per product', () => {
       component.products = helper.getProducts(1);
       fixture.detectChanges();
@@ -118,6 +130,7 @@ describe('HomeComponent', () => {
     let router: Router;
 
     beforeEach(() => {
+      fixture.detectChanges();
       location = TestBed.inject(Location);
       router = TestBed.inject(Router);
     });
@@ -139,12 +152,38 @@ describe('HomeComponent', () => {
         );
     });
   });
+
+  describe('Async Calls', () => {
+    let helper: Helper;
+
+    beforeEach(() => {
+      helper = new Helper();
+    });
+
+    it('should call getAllProducts on the ProductService one time on ngOnInit', () => {
+      fixture.detectChanges();
+      expect(productServiceMock.getAllProducts).toHaveBeenCalledTimes(1);
+    });
+
+    it('should show an img tag when product with url is loaded async from ProductService', () => {
+      productServiceMock.getAllProducts.and.returnValue(helper.getProductsObservable(1));
+      fixture.detectChanges();
+      expect(dh.count('img')).toBe(1);
+    });
+
+    it('should show an img tag even if product url is undefined and loaded async from ProductService', () => {
+      productServiceMock.getAllProducts.and.returnValue(helper.getProductsObservable(1));
+      helper.products[0].image = undefined;
+      fixture.detectChanges();
+      expect(dh.count('img')).toBe(1);
+    });
+  });
 });
 
 class Helper {
-  products = [];
+  products: ProductModelServer[] = [];
 
-  getProducts(amount: number): any[] {
+  getProducts(amount: number): ProductModelServer[] {
     for (let i = 0; i < amount; i++) {
       this.products.push(
         {
@@ -160,5 +199,23 @@ class Helper {
       );
     }
     return this.products;
+  }
+
+  getProductsObservable(amount: number): Observable<ProductModelServer[]> {
+    for (let i = 0; i < amount; i++) {
+      this.products.push(
+        {
+          id: i + 1,
+          category: 'trail',
+          name: 'Running1',
+          price: 99,
+          quantity: 3,
+          image: '/assets/img/products/p1.jpg',
+          images: '',
+          description: 'test'
+        }
+      );
+    }
+    return of(this.products);
   }
 }
